@@ -16,6 +16,10 @@
 
       <!-- Error State -->
       <div v-else-if="error" class="p-3 mb-4 bg-red-100 text-red-800 rounded">
+        ❌ {{ error }}
+      </div>
+      
+      <div v-else class="p-3 mb-4 rounded">
         <p>Descripción del proyecto de la biblioteca, una foto de curso e indicación de dónde encontrar el QR.</p>
       </div>
 
@@ -201,8 +205,6 @@ export default {
 
         // Update URL without reloading the page
         window.history.replaceState({}, document.title, url.toString());
-
-        console.log('URL cleaned, token removed from address bar');
       } catch (error) {
         console.error('Error cleaning URL:', error);
       }
@@ -213,14 +215,10 @@ export default {
     },
 
     logout() {
-      // Remove token from local storage
       localStorage.removeItem('jwt_token');
 
-      // Reset state
       this.setUnauthenticated('Logged out successfully');
       this.showTokenInfo = false;
-
-      console.log('User logged out, token removed from local storage');
     }
   }
 };
