@@ -3,7 +3,7 @@
     <div class="max-w-md mx-auto bg-white p-6 rounded shadow">
       <h1 class="text-2xl font-bold mb-4">Promo 2000</h1>
 
-      <!-- Loading State -->
+      <!-- Loading State NOW -->
       <div v-if="loading" class="p-3 mb-4 bg-blue-100 text-blue-800 rounded">
         <div class="inline-block w-4 h-4 border-2 border-blue-500 border-t-transparent rounded-full animate-spin"></div>
         Cargando...
