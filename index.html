@@ -1,0 +1,170 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>JWT Token Authentication</title>
+    <script src="https://unpkg.com/vue@3/dist/vue.global.js"></script>
+    <style>
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            margin: 0;
+            padding: 20px;
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            min-height: 100vh;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }
+
+        .container {
+            background: white;
+            padding: 40px;
+            border-radius: 15px;
+            box-shadow: 0 20px 40px rgba(0, 0, 0, 0.1);
+            max-width: 500px;
+            width: 100%;
+            text-align: center;
+        }
+
+        .status {
+            padding: 15px;
+            border-radius: 8px;
+            margin: 20px 0;
+            font-weight: 500;
+        }
+
+        .status.success {
+            background-color: #d4edda;
+            color: #155724;
+            border: 1px solid #c3e6cb;
+        }
+
+        .status.error {
+            background-color: #f8d7da;
+            color: #721c24;
+            border: 1px solid #f5c6cb;
+        }
+
+        .status.info {
+            background-color: #d1ecf1;
+            color: #0c5460;
+            border: 1px solid #bee5eb;
+        }
+
+        .btn {
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            color: white;
+            border: none;
+            padding: 12px 24px;
+            border-radius: 8px;
+            cursor: pointer;
+            font-size: 16px;
+            font-weight: 500;
+            transition: transform 0.2s;
+        }
+
+        .btn:hover {
+            transform: translateY(-2px);
+        }
+
+        .btn:disabled {
+            opacity: 0.6;
+            cursor: not-allowed;
+            transform: none;
+        }
+
+        .token-info {
+            background: #f8f9fa;
+            padding: 15px;
+            border-radius: 8px;
+            margin: 20px 0;
+            text-align: left;
+            font-family: monospace;
+            font-size: 12px;
+            word-break: break-all;
+        }
+
+        h1 {
+            color: #333;
+            margin-bottom: 30px;
+        }
+
+        .loading {
+            display: inline-block;
+            width: 20px;
+            height: 20px;
+            border: 3px solid #f3f3f3;
+            border-top: 3px solid #667eea;
+            border-radius: 50%;
+            animation: spin 1s linear infinite;
+        }
+
+        @keyframes spin {
+            0% {
+                transform: rotate(0deg);
+            }
+
+            100% {
+                transform: rotate(360deg);
+            }
+        }
+    </style>
+</head>
+
+<body>
+    <div id="app">
+        <div class="container">
+            <h1>🔐 JWT Token Authentication</h1>
+
+            <!-- Loading State -->
+            <div v-if="loading" class="status info">
+                <div class="loading"></div> Processing...
+            </div>
+
+            <!-- Success State -->
+            <div v-else-if="isAuthenticated" class="status success">
+                ✅ Authentication successful! You are now logged in.
+            </div>
+
+            <!-- Error State -->
+            <div v-else-if="error" class="status error">
+                ❌ {{ error }}
+            </div>
+
+            <!-- Initial State -->
+            <div v-else class="status info">
+                ℹ️ Checking for authentication token...
+            </div>
+
+            <!-- Token Information (when authenticated) -->
+            <div v-if="isAuthenticated && showTokenInfo" class="token-info">
+                <strong>Token Details:</strong><br>
+                <strong>Header:</strong> {{ tokenHeader }}<br>
+                <strong>Payload:</strong> {{ tokenPayload }}<br>
+                <strong>Expires:</strong> {{ tokenExpiry }}
+            </div>
+
+            <!-- Action Buttons -->
+            <div v-if="isAuthenticated" style="margin-top: 20px;">
+                <button @click="toggleTokenInfo" class="btn">
+                    {{ showTokenInfo ? 'Hide' : 'Show' }} Token Info
+                </button>
+                <button @click="logout" class="btn" style="margin-left: 10px; background: #dc3545;">
+                    Logout
+                </button>
+            </div>
+
+            <div v-else-if="!loading && !error" style="margin-top: 20px;">
+                <button @click="checkUrlForToken" class="btn">
+                    Check URL for Token
+                </button>
+            </div>
+        </div>
+    </div>
+
+    <script src="app.js"></script>
+</body>
+
+</html>
